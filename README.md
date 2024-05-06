@@ -4,13 +4,19 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Create a file `lib/keys.dart` with the following content, substituting the string values with your own Giphy API keys:
 
-A few resources to get you started if this is your first Flutter project:
+```dart
+import 'dart:io';
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+final giphyApiKey = Platform.isAndroid
+    ? 'your-android-key'
+    : 'your-iOS-key';
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. The Giphy API requires to give attribution, this project uses two of their images to accomplish that. You can find more information on their [Quick Start Guide](https://developers.giphy.com/docs/api#quick-start-guide). Follow the link that they provide to download the official attribution images and then copy the following files (path on the left) to their destination within the project (path on the right):
+
+- `/Static Logos/Large/Dark Backgrounds/Poweredby_640px-Black_HorizText.png` => `assets/images/img_giphy_dark.png`
+- `/Static Logos/Large/Light Backgrounds/Poweredby_640px-White_HorizText.png` => `assets/images/img_giphy_light.png`
+
+(*) The path or name of the files may not be exactly what is indicated here.

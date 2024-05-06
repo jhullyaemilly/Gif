@@ -12,7 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
   http: 0.13.4  
+  infinite_scroll_pagination: 3.1.0
   logger: 1.1.0
+  provider: 6.0.2
+  shimmer: 2.0.0
+  url_launcher: 6.0.20
 
 
 dev_dependencies:
@@ -21,7 +25,8 @@ dev_dependencies:
   lint: 1.8.2
 
 flutter:
-
   uses-material-design: true
+  assets:
+    - assets/assets/images/
 
  

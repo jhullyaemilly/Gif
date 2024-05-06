@@ -1,6 +1,6 @@
-import 'package:gif/data.network.entity/images.entity.dart';
-import 'package:gif/data.network.entity/user.entity.dart';
-
+import 'package:gif/entity/images.entity.dart';
+import 'package:gif/data/network/entity/user.entity.dart'
+;
 class GifEntity {
   final String id;
   final String url;

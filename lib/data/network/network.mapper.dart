@@ -1,6 +1,7 @@
-import 'package:gif/data.network.entity/git.entity.dart';
-import 'package:gif/data.network.entity/rendition.entity.dart';
-import 'package:gif/data.network/domain/gif.dart';
+import 'package:gif/data/network/entity/git.entity.dart';
+import 'package:gif/data/network/entity/images.entity.dart';
+import 'package:gif/data/network/entity/rendition.entity.dart';
+import 'package:gif/data/network/domain/gif.dart';
 
 class MapperException<From, To> implements Exception {
   final String message;
@@ -26,11 +27,26 @@ class NetworkMapper {
         url: rendition.url!,
         displayName: entity.user?.displayName, 
         username: entity.user?.profileUrl,
+        userProfileUrl: entity.user?.profileUrl,
         );
     } catch (e) {
       throw MapperException<GifEntity, Gif>(e.toString());
     }
   }
+
+List<Gif> toGifs(List<GifEntity> entities) {
+  final List<Gif> models = [];
+
+  for (final entity in entities){
+    final model = toGif(entity);
+    if (model != null) {
+      models.add(model);
+    }
+  }
+  return models;
+
+}
+
   RenditionEntity? _getPreviewRendition(ImagesEntity images) {
     if (_isRenditionUsable(images.previewGif)){
       return images.previewGif;
@@ -41,12 +57,13 @@ class NetworkMapper {
     }
   }
 
+
   bool _isRenditionUsable(RenditionEntity rendition) {
     return rendition.url != null &&
-           rendition.url!.isNotEmpty &&
-           rendition.width != null &&
-           rendition.width!.isNotEmpty &&
-           rendition.height != null &&
-           rendition.width!.isNotEmpty &&;
+    rendition.url!.isNotEmpty &&
+    rendition.width != null &&
+    rendition.width!.isNotEmpty &&
+    rendition.height != null &&
+    rendition.width!.isNotEmpty;
   }
 }

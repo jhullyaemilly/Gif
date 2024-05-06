@@ -1,4 +1,4 @@
-import 'package:gif/data.network.entity/git.entity.dart';
+import 'package:gif/data/network/entity/git.entity.dart';
 
 class ResponseEntity {
   final List<GifEntity> data;

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:gif/data.network.entity/response.entity.dart';
-import 'package:gif/data.network/client/base.client.dart';
+import 'package:gif/data/network/entity/response.entity.dart';
+import 'package:gif/data/network/client/base.client.dart';
 import 'package:logger/logger.dart';
 
 class GiphyClient extends BaseClient {
