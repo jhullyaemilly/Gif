@@ -1,6 +1,6 @@
 import 'dart:convert';
-import '../entity/response_entity.dart';
-import 'base_client.dart';
+import 'package:gif/data/entity/response_entity.dart';
+import 'package:gif/data/network/client/base_client.dart';
 import 'package:logger/logger.dart';
 
 class GiphyClient extends BaseClient {
@@ -15,7 +15,7 @@ class GiphyClient extends BaseClient {
 
   Future<ResponseEntity> getTrending({int? limit, int? offset}) async {
     final params = {
-      '1CZ9g3mracgvaeuxrRcTU78YW9b5MSwS': apiKey,
+      'api_key': apiKey,
     };
 
     if (limit != null) {

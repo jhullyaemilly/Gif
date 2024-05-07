@@ -1,4 +1,4 @@
-import 'package:gif/data/network/entity/rendition.entity.dart';
+import 'rendition_entity.dart';
 
 class ImagesEntity {
   final RenditionEntity original;

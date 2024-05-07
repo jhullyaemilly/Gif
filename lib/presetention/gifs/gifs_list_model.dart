@@ -1,27 +1,28 @@
-import 'package:gif/data/network/domain/gif.dart';
+import 'package:flutter/material.dart';
 import 'package:gif/data/repository/giphy_repository.dart';
+import 'package:gif/domain/gif.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 
 class GifsListModel {
   static const limit = 50;
 
-  final Logger _log;
-  final GiphyRepository _giphyRepo;
+  late final Logger log;
+  late final GiphyRepository giphyRepo;
 
-  const GifsListModel(this._log, this._giphyRepo);
+  GifsListModel(BuildContext context) {
+    log = Provider.of<Logger>(context, listen: false);
+    giphyRepo = Provider.of<GiphyRepository>(context, listen: false);
+  }
 
-  Future <List<Gif>> fetchGifs(int offset) async {
+  Future<List<Gif>> fetchGifs(int offset) async {
     try {
-
-     // Force a network delay to see the shimmer effect
-     await Future.delayed(const Duration(seconds: 5));
-
-     return await _giphyRepo.getTrending(
-      offset: offset, 
-      limit: limit, 
-     ); 
-    } catch (e){
-      _log.e('Error while obtaining trending gifs: $e');
+      return await giphyRepo.getTrending(
+        offset: offset,
+        limit: limit,
+      );
+    } catch (e) {
+      log.e('Error while testing trending: $e');
       rethrow;
     }
   }

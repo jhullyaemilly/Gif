@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 class KoException implements Exception {
-  final int httpCode;
+  int httpCode;
+  int? resultCode;
+  dynamic response;
 
-  KoException(this.httpCode);
+  KoException(this.httpCode, {this.resultCode, this.response});
 
   @override
-  String toString() => '[KoException|http-code:$httpCode';
+  String toString() {
+    if (resultCode != null) {
+      return "[KoException|http-code:$httpCode|error-code:$resultCode]";
+    } else {
+      return "[KoException|http-code:$httpCode]";
+    }
+  }
 }
 
 abstract class BaseClient {
@@ -24,7 +31,7 @@ abstract class BaseClient {
 
   @protected
   Future<http.Response> get(
-    String url,{
+    String url, {
     Map<String, String>? headers,
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -34,21 +41,33 @@ abstract class BaseClient {
       queryParameters.forEach((key, value) {
         queryParams += '$key=$value&';
       });
-      //Remove the last '&' character
       queryParams = queryParams.substring(0, queryParams.length - 1);
     }
 
     final uri = Uri.parse('$url$queryParams');
     return _client.get(uri, headers: headers);
   }
+
   @protected
-  void checkKo(http.Response response, String caller, {String? body}){
+  Future<http.Response> post(
+    String url, {
+    Map<String, String>? headers,
+    Map<String, dynamic>? body,
+  }) async {
+    final uri = Uri.parse(url);
+    return _client.post(uri, headers: headers, body: body);
+  }
+
+  @protected
+  void checkKo(http.Response response, String caller, {String? body}) {
     final trace = '''
-      url: ${response.request?.url ?? '-'}
-      headers: ${response.request?.headers ?? '-'}
-      request: ${body ?? '-'}
-      response: ${response.body}
-''';
+    $caller:
+        url: ${response.request?.url}
+        headers: ${response.request?.headers ?? '-'}
+        request: ${body ?? '-'}
+        code: ${response.statusCode}
+        response: ${response.body}
+    ''';
     log.i(trace);
 
     if (response.statusCode >= 400) {

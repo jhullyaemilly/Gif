@@ -1,5 +1,5 @@
-import 'package:gif/data/network/entity/images.entity.dart';
-import 'package:gif/data/network/entity/user.entity.dart';
+import 'package:gif/data/entity/images_entity.dart';
+import 'package:gif/data/network/entity/user_entity.dart';
 
 class GifEntity {
   final String id;

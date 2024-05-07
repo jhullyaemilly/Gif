@@ -1,14 +1,70 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gif/presetention/app/app_model.dart';
+import 'package:gif/presetention/favorites/favorites.dart';
 import 'package:gif/presetention/gifs/gifs_list.dart';
+import 'package:gif/presetention/main/main_model.dart';
+import 'package:gif/util/design_utils.dart';
+import 'package:provider/provider.dart';
 
-class MainScreen extends StatelessWidget with DesingUtils {
-  @override 
+class MainScreen extends StatelessWidget with DesignUtils {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold( 
-      appBar: AppBar(
-        title: const Text('Flutter GIFs sample'),
+    return ChangeNotifierProvider<MainModel>(
+      create: (context) => MainModel(),
+      child: Consumer<MainModel>(
+        builder: (context, bloc, child) {
+          Widget tab;
+          switch (bloc.mainTab) {
+            case MainTab.gifs:
+              tab = const GifsList();
+              break;
+            case MainTab.favorites:
+              tab = const Favorites();
+              break;
+          }
+
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Flutter GIFs sample'),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    final appModel =
+                        Provider.of<AppModel>(context, listen: false);
+
+                    if (isLight(context)) {
+                      appModel.themeMode = ThemeMode.dark;
+                    } else {
+                      appModel.themeMode = ThemeMode.light;
+                    }
+                  },
+                  icon: Icon(
+                    isLight(context) ? Icons.dark_mode : Icons.light_mode,
+                  ),
+                ),
+              ],
+            ),
+            body: tab,
+            bottomNavigationBar: kIsWeb
+                ? null
+                : BottomNavigationBar(
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.gif),
+                        label: 'GIFs',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.favorite),
+                        label: 'Favorites',
+                      )
+                    ],
+                    currentIndex: bloc.mainTab.index,
+                    onTap: (int index) => bloc.mainTab = MainTab.values[index],
+                  ),
+          );
+        },
       ),
-      body: const GifsList(),
     );
   }
 }
